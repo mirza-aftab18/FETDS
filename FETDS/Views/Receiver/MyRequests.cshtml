@@ -1,0 +1,29 @@
+﻿@using FETDS.Helpers
+@model IEnumerable<FETDS.Models.DonationRequest>
+
+@{
+    ViewData["Title"] = "My Requests";
+}
+
+<a asp-action="Index" class="btn btn-secondary mb-3">← Back to Available Products</a>
+<h2>My Requests</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Requested On</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product?.Name</td>
+                <td>@item.RequestedAt.ToShortDateString()</td>
+                <td><span class="status-badge @StatusBadgeHelper.CssClass(item.Status)">@item.Status</span></td>
+            </tr>
+        }
+    </tbody>
+</table>

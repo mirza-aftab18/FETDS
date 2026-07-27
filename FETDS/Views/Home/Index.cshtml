@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center py-5">
+    <h1 class="display-4">FETDS</h1>
+    <p class="lead">Food Expiry Tracking and Donation System</p>
+    <p class="text-muted">Connecting restaurants and supermarkets with surplus food to organizations and individuals who need it — before it goes to waste.</p>
+</div>
+
+@if (User.Identity?.IsAuthenticated != true)
+{
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-4 text-center">
+            <div class="card p-4">
+                <h4>I have food to donate</h4>
+                <p class="text-muted">Restaurant or supermarket owner? List surplus items before they expire.</p>
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Register as Donor</a>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="card p-4">
+                <h4>I need food donations</h4>
+                <p class="text-muted">NGO or individual? Browse available donations near you.</p>
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-success">Register as Receiver</a>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <a asp-area="Identity" asp-page="/Account/Login">Already have an account? Log in</a>
+    </div>
+}
+else if (User.IsInRole("Donor"))
+{
+    <div class="text-center mt-4">
+        <a asp-controller="Donor" asp-action="Index" class="btn btn-primary btn-lg">Go to My Products</a>
+    </div>
+}
+else if (User.IsInRole("Receiver"))
+{
+    <div class="text-center mt-4">
+        <a asp-controller="Receiver" asp-action="Index" class="btn btn-success btn-lg">Browse Available Products</a>
+    </div>
+}

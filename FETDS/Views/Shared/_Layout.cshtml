@@ -1,0 +1,117 @@
+﻿@inject FETDS.Data.ApplicationDbContext DbContext
+@inject Microsoft.AspNetCore.Identity.UserManager<FETDS.Data.ApplicationUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FETDS</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FETDS.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FETDS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Donor"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Donor" asp-action="Index">My Products</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Receiver"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Receiver" asp-action="Index">Available Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Receiver" asp-action="MyRequests">My Requests</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Dashboard">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Pending Approvals</a>
+                            </li>
+                            
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            var userId = UserManager.GetUserId(User);
+                            var unread = DbContext.Notifications
+                                .Where(n => n.UserId == userId && !n.IsRead)
+                                .OrderByDescending(n => n.CreatedAt)
+                                .ToList();
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                    🔔 @(unread.Count > 0 ? $"({unread.Count})" : "")
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="min-width: 300px;">
+                                    @if (!unread.Any())
+                                    {
+                                        <li><span class="dropdown-item-text text-muted">No new notifications</span></li>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var n in unread)
+                                        {
+                                            <li><span class="dropdown-item-text">@n.Message</span></li>
+                                        }
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li>
+                                            <form asp-controller="Notifications" asp-action="MarkAllRead" method="post" class="px-3">
+                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                                                <button type="submit" class="btn btn-sm btn-link p-0">Mark all as read</button>
+                                            </form>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2026 - FETDS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

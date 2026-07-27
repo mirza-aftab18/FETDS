@@ -1,0 +1,73 @@
+﻿@using FETDS.Helpers
+
+@model IEnumerable<FETDS.Models.Product>
+
+@{
+    ViewData["Title"] = "Available Products";
+}
+
+<h2>Available Products</h2>
+
+<form method="get" class="mb-3">
+    <select name="category" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+        <option value="">All Categories</option>
+        @foreach (var cat in Enum.GetValues<FETDS.Models.ProductCategory>())
+        {
+            <option value="@cat" selected="@(ViewBag.SelectedCategory?.ToString() == cat.ToString())">@cat</option>
+        }
+    </select>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product Image</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Donor</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var daysLeft = (item.ExpiryDate.Date - DateTime.Now.Date).Days;
+            var freshClass = daysLeft > 3 ? "freshness-fill-good" : daysLeft >= 1 ? "freshness-fill-warn" : "freshness-fill-bad";
+            var freshWidth = Math.Clamp(daysLeft, 0, 10) * 10;
+
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImagePath))
+                    {
+                        <img src="@item.ImagePath" style="width:60px;height:60px;object-fit:cover;" />
+                    }
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.Quantity @item.Unit</td>
+                <td>
+                    @item.ExpiryDate.ToShortDateString()
+                    <div class="freshness-bar">
+                        <div class="freshness-bar-fill @freshClass" style="width:@(freshWidth)%"></div>
+                    </div>
+                </td>
+                <td>@(item.Donor?.OrganizationName ?? item.Donor?.FullName)</td>
+                <td>
+                    @{
+                        var appliedIds = (List<int>)ViewBag.AppliedProductIds;
+                    }
+                    @if (appliedIds.Contains(item.Id))
+                    {
+                        <button class="btn btn-sm btn-secondary" disabled>Already Applied</button>
+                    }
+                    else
+                    {
+                        <a asp-action="Apply" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Apply</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

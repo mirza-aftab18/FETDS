@@ -1,0 +1,16 @@
+﻿@model FETDS.Models.DonationRequest
+
+@{
+    ViewData["Title"] = "Apply for Product";
+}
+
+<h2>Apply for: @Model.Product?.Name</h2>
+<p>Quantity: @Model.Product?.Quantity @Model.Product?.Unit | Expires: @Model.Product?.ExpiryDate.ToShortDateString()</p>
+
+<form asp-action="Apply" asp-route-id="@Model.ProductId" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="Note">Message to donor (optional)</label>
+        <textarea asp-for="Note" class="form-control"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Request</button>
+</form>

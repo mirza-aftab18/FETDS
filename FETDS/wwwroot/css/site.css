@@ -1,0 +1,203 @@
+:root {
+    --fetds-forest: #1F3D2B;
+    --fetds-sage: #4C7A57;
+    --fetds-sage-dark: #35573D;
+    --fetds-gold: #E0A458;
+    --fetds-clay: #B5533C;
+    --fetds-mist: #F4F6F1;
+    --fetds-slate: #5B6660;
+    /* Override Bootstrap 5's own variables so buttons, links, and
+     focus states pick up our palette automatically */
+    --bs-primary: var(--fetds-sage);
+    --bs-primary-rgb: 76, 122, 87;
+    --bs-success: var(--fetds-sage);
+    --bs-danger: var(--fetds-clay);
+    --bs-warning: var(--fetds-gold);
+    --bs-body-bg: var(--fetds-mist);
+    --bs-body-color: var(--fetds-forest);
+    --bs-link-color: var(--fetds-sage-dark);
+    --bs-link-hover-color: var(--fetds-forest);
+}
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+h1, h2, h3, .navbar-brand {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    color: var(--fetds-forest);
+}
+
+.navbar {
+    background-color: #ffffff !important;
+    border-bottom: 2px solid var(--fetds-sage) !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: var(--fetds-forest) !important;
+}
+
+.btn-primary {
+    background-color: var(--fetds-sage);
+    border-color: var(--fetds-sage);
+}
+
+    .btn-primary:hover {
+        background-color: var(--fetds-sage-dark);
+        border-color: var(--fetds-sage-dark);
+    }
+
+.btn-success {
+    background-color: var(--fetds-sage);
+    border-color: var(--fetds-sage);
+}
+
+.btn-danger {
+    background-color: var(--fetds-clay);
+    border-color: var(--fetds-clay);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(31, 61, 43, 0.08);
+}
+
+.table {
+    --bs-table-bg: transparent;
+}
+
+    .table thead {
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        color: var(--fetds-slate);
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.03em;
+        border-bottom: 2px solid var(--fetds-sage);
+    }
+
+/* Status badges */
+.status-badge {
+    display: inline-block;
+    padding: 0.25em 0.7em;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-available {
+    background: #E7F0E9;
+    color: var(--fetds-sage-dark);
+}
+
+.status-pending {
+    background: #FBEEDB;
+    color: #8A5A1E;
+}
+
+.status-reserved {
+    background: #E4EEF5;
+    color: #2B5A78;
+}
+
+.status-expired {
+    background: #F6E3DE;
+    color: var(--fetds-clay);
+}
+
+.status-approved {
+    background: #E7F0E9;
+    color: var(--fetds-sage-dark);
+}
+
+.status-rejected {
+    background: #F6E3DE;
+    color: var(--fetds-clay);
+}
+
+/* Freshness bar */
+.freshness-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: #e5e5e5;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.freshness-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+}
+
+/* Ensure the footer always sits in normal document flow,
+   never overlapping short pages like Login/Register */
+html, body {
+    height: auto;
+}
+
+main {
+    min-height: 65vh;
+    padding-bottom: 2rem;
+}
+
+.footer {
+    position: static !important;
+    width: auto;
+    white-space: normal;
+    line-height: normal;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(31, 61, 43, 0.15);
+    background-color: transparent;
+}
+
+.freshness-fill-good {
+    background: var(--fetds-sage);
+}
+
+.freshness-fill-warn {
+    background: var(--fetds-gold);
+}
+
+.freshness-fill-bad {
+    background: var(--fetds-clay);
+}
+
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 1rem;
+}
+
+.auth-card {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(31, 61, 43, 0.10);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 440px;
+}
+
+.auth-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+    color: var(--fetds-slate);
+    margin-bottom: 1.5rem;
+}
+
+.auth-links {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.auth-divider {
+    margin: 0 0.5rem;
+    color: var(--fetds-slate);
+}

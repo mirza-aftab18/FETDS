@@ -1,0 +1,41 @@
+﻿@using FETDS.Helpers
+@model IEnumerable<FETDS.Models.DonationRequest>
+
+@{
+    ViewData["Title"] = "Pending Requests";
+}
+
+<h2>Pending Donation Requests</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Receiver</th>
+            <th>Requested On</th>
+            <th>Note</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product?.Name (@item.Product?.Quantity @item.Product?.Unit)</td>
+                <td>@item.Receiver?.FullName</td>
+                <td>@item.RequestedAt.ToShortDateString()</td>
+                <td>@item.Note</td>
+                <td><span class="status-badge @StatusBadgeHelper.CssClass(item.Status)">@item.Status</span></td>
+                <td>
+                    <form asp-action="Approve" asp-route-id="@item.Id" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                    </form>
+                    <form asp-action="Reject" asp-route-id="@item.Id" method="post" style="display:inline">
+                        <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

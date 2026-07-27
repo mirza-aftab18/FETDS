@@ -1,0 +1,47 @@
+﻿@using FETDS.Helpers
+@model IEnumerable<FETDS.Models.Product>
+
+@{
+    ViewData["Title"] = "My Products";
+}
+
+<h2>My Products</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">+ Add New Product</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var daysLeft = (item.ExpiryDate.Date - DateTime.Now.Date).Days;
+            var freshClass = daysLeft > 3 ? "freshness-fill-good" : daysLeft >= 1 ? "freshness-fill-warn" : "freshness-fill-bad";
+            var freshWidth = Math.Clamp(daysLeft, 0, 10) * 10;
+
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Category</td>
+                <td>@item.Quantity @item.Unit</td>
+                <td>
+                    @item.ExpiryDate.ToShortDateString()
+                    <div class="freshness-bar">
+                        <div class="freshness-bar-fill @freshClass" style="width:@(freshWidth)%"></div>
+                    </div>
+                </td>
+                <td><span class="status-badge @StatusBadgeHelper.CssClass(item.Status)">@item.Status</span></td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-secondary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

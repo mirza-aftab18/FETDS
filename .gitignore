@@ -1,0 +1,19 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Rider / VS Code (harmless to include even if unused)
+.idea/
+.vscode/
+
+# Environment-specific secrets
+appsettings.Development.json
+
+# OS files
+.DS_Store
+Thumbs.db

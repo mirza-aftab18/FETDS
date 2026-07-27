@@ -1,0 +1,38 @@
+﻿@model FETDS.Models.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Dashboard</h2>
+
+<div class="row text-center mb-4">
+    <div class="col-md-2">
+        <div class="card p-3"><h3>@Model.TotalDonors</h3><small>Donors</small></div>
+    </div>
+    <div class="col-md-2">
+        <div class="card p-3"><h3>@Model.TotalReceivers</h3><small>Receivers</small></div>
+    </div>
+    <div class="col-md-2">
+        <div class="card p-3"><h3>@Model.TotalProductsListed</h3><small>Products Listed</small></div>
+    </div>
+    <div class="col-md-2">
+        <div class="card p-3"><h3>@Model.TotalDonationsCompleted</h3><small>Donations Made</small></div>
+    </div>
+    <div class="col-md-2">
+        <div class="card p-3"><h3>@Model.TotalPendingRequests</h3><small>Pending Requests</small></div>
+    </div>
+    <div class="col-md-2">
+        <div class="card p-3"><h3>@Model.TotalExpiredProducts</h3><small>Expired</small></div>
+    </div>
+</div>
+
+<h4>Products by Category</h4>
+<ul class="list-group">
+    @foreach (var (category, count) in Model.ProductsByCategory)
+    {
+        <li class="list-group-item d-flex justify-content-between">
+            @category <span class="badge bg-primary">@count</span>
+        </li>
+    }
+</ul>
