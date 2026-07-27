@@ -14,8 +14,6 @@ FETDS is a role-based web platform where restaurants and supermarkets list surpl
 - [Getting Started](#-getting-started)
 - [How the Core Workflow Works](#-how-the-core-workflow-works)
 - [Future Improvements](#-future-improvements)
-- [License](#-license)
-
 ---
 
 ## ✨ Features
@@ -34,7 +32,7 @@ FETDS is a role-based web platform where restaurants and supermarkets list surpl
 
 | Layer | Technology |
 |---|---|
-| Framework | ASP.NET Core MVC (.NET 8) |
+| Framework | ASP.NET Core MVC (.NET 10) |
 | Data Access | Entity Framework Core |
 | Database | SQL Server |
 | Auth | ASP.NET Core Identity (roles + custom user fields) |
@@ -91,9 +89,9 @@ Everyone stays informed the moment something relevant to them happens.
 ## 🚀 Getting Started
 
 ### Prerequisites
-- .NET 8 SDK
+- .NET 10 SDK
 - SQL Server (LocalDB or a full instance)
-- Visual Studio 2022 (recommended) or the `dotnet` CLI
+- Visual Studio 2026 (recommended) or the `dotnet` CLI
 
 ### Setup
 
